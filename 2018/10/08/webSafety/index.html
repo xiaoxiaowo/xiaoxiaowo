@@ -87,18 +87,18 @@
 <meta property="og:site_name" content="Xiaoxiao">
 <meta property="og:description" content="（一）XSS">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://xiaoxiaowo.github.io/Users/dianping/Desktop/image.jpg">
-<meta property="og:image" content="http://xiaoxiaowo.github.io/Users/dianping/Desktop/clip.png">
-<meta property="og:image" content="http://xiaoxiaowo.github.io/Users/dianping/Desktop/clip%20(1">
-<meta property="og:image" content="http://xiaoxiaowo.github.io/Users/dianping/Desktop/fig1.gif">
-<meta property="og:image" content="http://xiaoxiaowo.github.io/Users/dianping/Desktop/clip%20(2">
-<meta property="og:image" content="http://xiaoxiaowo.github.io/Users/dianping/Desktop/1124317-fff1ad81da23c7a1.png">
-<meta property="og:image" content="http://xiaoxiaowo.github.io/Users/dianping/Desktop/1124317-7add74cf108d3846.png">
-<meta property="og:updated_time" content="2018-10-08T08:06:49.000Z">
+<meta property="og:image" content="http://xiaoxiaowo.github.io/2018/10/08/webSafety/1.jpg">
+<meta property="og:image" content="http://xiaoxiaowo.github.io/2018/10/08/webSafety/2.png">
+<meta property="og:image" content="http://xiaoxiaowo.github.io/2018/10/08/webSafety/3.png">
+<meta property="og:image" content="http://xiaoxiaowo.github.io/2018/10/08/webSafety/4.gif">
+<meta property="og:image" content="http://xiaoxiaowo.github.io/2018/10/08/webSafety/5.png">
+<meta property="og:image" content="http://xiaoxiaowo.github.io/2018/10/08/webSafety/6.png">
+<meta property="og:image" content="http://xiaoxiaowo.github.io/2018/10/08/webSafety/7.png">
+<meta property="og:updated_time" content="2018-10-08T08:35:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端安全">
 <meta name="twitter:description" content="（一）XSS">
-<meta name="twitter:image" content="http://xiaoxiaowo.github.io/Users/dianping/Desktop/image.jpg">
+<meta name="twitter:image" content="http://xiaoxiaowo.github.io/2018/10/08/webSafety/1.jpg">
 
 
 
@@ -404,7 +404,7 @@
 <li>受害者在Web浏览器中打开URL，恶意脚本执行</li>
 </ul>
 <p><strong>XSS攻击分类</strong>：存储型（持久型）、反射型（非持久型）、基于DOM</p>
-<p><img src="/Users/dianping/Desktop/image.jpg" alt="img"></p>
+<p><img src="/2018/10/08/webSafety/1.jpg" alt="img"></p>
 <p>注：存储区：恶意代码存放的位置；插入点：由谁取得恶意代码，并插入到网页上；</p>
 <p>（1）存储型: 存储型XSS和反射型的XSS差别就在于，存储型的XSS提交的代码会存储在服务器端（数据库，内存，文件系统等），下次请求目标页面时不用再提交XSS代码。</p>
 <p>（2）反射型： 发出请求时，XSS代码出现在URL中，作为输入提交到服务器端，服务器端解析后响应，XSS随响应内容一起返回给浏览器，最后浏览器解析执行XSS代码，这个过程就像一次发射，所以叫反射型XSS。</p>
@@ -450,7 +450,7 @@
 <p>微博互相关注的功能，导致病毒的扩散。</p>
 <p><strong>规避方法：</strong></p>
 <p>输入的数据进行HTML Entity编码 </p>
-<p><img src="/Users/dianping/Desktop/clip.png" alt="img"></p>
+<p><img src="/2018/10/08/webSafety/2.png" alt="img"></p>
 <p><strong>前端白名单限制：</strong>不允许输入onload，alert等，后端同步白名单限制，如果监测到就提示，您的输入有特殊字符，请重新输入！ （业务团队评估，认为是有效的方式）</p>
 <p>参考：<a href="https://segmentfault.com/a/1190000016551188" target="_blank" rel="noopener">https://segmentfault.com/a/1190000016551188</a></p>
 <p><a href="https://mp.neixin.cn/cms/content/article/Ra8QGSQ28HEM790I016wEE2hdca1vVzk" target="_blank" rel="noopener">https://mp.neixin.cn/cms/content/article/Ra8QGSQ28HEM790I016wEE2hdca1vVzk</a></p>
@@ -467,7 +467,7 @@
 <p>危险的是Web应用程序，它将经过身份信息验证的用户信息保存在Web浏览器中的cookie中，基于cookie来验证用户身份，继而执行操作，无需用户每次操作都输入身份信息。然而用户可能会在不知情的情况下将HTTP请求(携带cookie)发送到站点，从而导致用户不知情的操作。</p>
 <p>如果网站没有做相应的校验，将可能会导致服务器上的状态更改，例如更改受害者的电子邮件地址或密码，或购买某些东西等等。因此，CSRF攻击目标是多种多样的。</p>
 <p> <strong>CSRF攻击攻击原理及过程如下：</strong></p>
-<p><img src="/Users/dianping/Desktop/clip (1" alt="img">.png)</p>
+<p><img src="/2018/10/08/webSafety/3.png" alt="img"></p>
 <ol>
 <li><p>用户C打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A；</p>
 </li>
@@ -487,11 +487,12 @@
 <p><strong>2. Token</strong></p>
 <p>服务器下发一个随机 Token（算法不能复杂），每次发起请求时将 Token 携带上，服务器验证 Token 是否有效。</p>
 <p><strong>3.HttpOnly</strong> - 这个属性用来防止例如跨站脚本等攻击，设置它的cookie不允许通过JavaScript来访问。</p>
-<p>参考：<a href="https://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&amp;mid=2651554578&amp;idx=1&amp;sn=89a1743e018bf221688172c96bb4e866&amp;chksm=802554d3b752ddc57945a5341285b22eb6d8eaaef3096aba72f696d1807df6cb626a30be26ea&amp;mpshare=1&amp;scene=1&amp;srcid=0716SBeQuIYYHIXob5Q0mpT9&amp;key=0d399596963f36f137d9c1b92beec543cb2aeb393fd418a919ca2b71bd97db22ed160864dbd46a618287d1b36afe659b1ba13fe2cf6235b263147875b3be3410ebedaa2c308a235221756d0d825f8b7e&amp;ascene=0&amp;uin=MTE3NjQyMDU0Mg%3D%3D&amp;devicetype=iMac+MacBookPro11%2C4+OSX+OSX+10.12.2+build(16C67)&amp;version=12010210&amp;nettype=WIFI&amp;lang=zh_CN&amp;fontScale=100&amp;pass_ticket=PoJymBXOChpqXFhMn7puUIuGEN4o7F7yt%2BNt6nMEw3MKoTs47Dq10O87GWW%2FKRu0" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&amp;mid=2651554578&amp;idx=1&amp;sn=89a1743e018bf221688172c96bb4e866&amp;chksm=802554d3b752ddc57945a5341285b22eb6d8eaaef3096aba72f696d1807df6cb626a30be26ea&amp;mpshare=1&amp;scene=1&amp;srcid=0716SBeQuIYYHIXob5Q0mpT9&amp;key=0d399596963f36f137d9c1b92beec543cb2aeb393fd418a919ca2b71bd97db22ed160864dbd46a618287d1b36afe659b1ba13fe2cf6235b263147875b3be3410ebedaa2c308a235221756d0d825f8b7e&amp;ascene=0&amp;uin=MTE3NjQyMDU0Mg%3D%3D&amp;devicetype=iMac+MacBookPro11%2C4+OSX+OSX+10.12.2+build(16C67)&amp;version=12010210&amp;nettype=WIFI&amp;lang=zh_CN&amp;fontScale=100&amp;pass_ticket=PoJymBXOChpqXFhMn7puUIuGEN4o7F7yt%2BNt6nMEw3MKoTs47Dq10O87GWW%2FKRu0</a></p>
+<p>参考：</p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&amp;mid=2651554578&amp;idx=1&amp;sn=89a1743e018bf221688172c96bb4e866&amp;chksm=802554d3b752ddc57945a5341285b22eb6d8eaaef3096aba72f696d1807df6cb626a30be26ea&amp;mpshare=1&amp;scene=1&amp;srcid=0716SBeQuIYYHIXob5Q0mpT9&amp;key=0d399596963f36f137d9c1b92beec543cb2aeb393fd418a919ca2b71bd97db22ed160864dbd46a618287d1b36afe659b1ba13fe2cf6235b263147875b3be3410ebedaa2c308a235221756d0d825f8b7e&amp;ascene=0&amp;uin=MTE3NjQyMDU0Mg%3D%3D&amp;devicetype=iMac+MacBookPro11%2C4+OSX+OSX+10.12.2+build(16C67)&amp;version=12010210&amp;nettype=WIFI&amp;lang=zh_CN&amp;fontScale=100&amp;pass_ticket=PoJymBXOChpqXFhMn7puUIuGEN4o7F7yt%2BNt6nMEw3MKoTs47Dq10O87GWW%2FKRu0" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&amp;mid=2651554578&amp;idx=1&amp;sn=89a1743e018bf221688172c96bb4e866&amp;chksm=802554d3b752ddc57945a5341285b22eb6d8eaaef3096aba72f696d1807df6cb626a30be26ea&amp;mpshare=1&amp;scene=1&amp;srcid=0716SBeQuIYYHIXob5Q0mpT9&amp;key=0d399596963f36f137d9c1b92beec543cb2aeb393fd418a919ca2b71bd97db22ed160864dbd46a618287d1b36afe659b1ba13fe2cf6235b263147875b3be3410ebedaa2c308a235221756d0d825f8b7e&amp;ascene=0&amp;uin=MTE3NjQyMDU0Mg%3D%3D&amp;devicetype=iMac+MacBookPro11%2C4+OSX+OSX+10.12.2+build(16C67)&amp;version=12010210&amp;nettype=WIFI&amp;lang=zh_CN&amp;fontScale=100&amp;pass_ticket=PoJymBXOChpqXFhMn7puUIuGEN4o7F7yt%2BNt6nMEw3MKoTs47Dq10O87GWW%2FKRu0</a></p>
 <p><strong>（三）DoS拒绝服务攻击（denial of service, 简称DoS）</strong></p>
 <p>​       拒绝服务攻击，其目的是使计算机或网络无法提供正常的服务。是黑客常用的攻击手段之一。只要能够对目标造成麻烦，使某些服务被暂停甚至主机死机，都属于拒绝服务攻击。最常见的DoS攻击有计算机网络带宽攻击和连通性攻击。带宽攻击指以极大的通信量冲击网络，使得所有可用网络资源都被消耗殆尽，最后导致合法的用户请求就无法通过。连通性攻击指用大量的连接请求冲击计算机，使得所有可用的操作系统资源都被消耗殆尽，最终计算机无法再处理合法用户的请求。 </p>
 <p>​       分布式拒绝服务(Distributed Denial of Service)攻击（如下图1），指借助于客户/服务器技术,将多个计算机联合起来作为攻击平台,对一个或多个目标发动DDoS 攻击,从而成倍地提高拒绝服务攻击的威力。通常,攻击者使用一个偷窃帐 号将DDoS主控程序安装在一个计算机上,在一个设定的时间主控程序将与大 量代理程序通讯,代理程序已经被安装在网络上的许多计算机上。代理程序 收到指令时就发动攻击。利用客户/服务器技术,主控程序能在几秒钟内激活 成百上千次代理程序的运行。</p>
-<p><img src="/Users/dianping/Desktop/fig1.gif" alt="img"></p>
+<p><img src="/2018/10/08/webSafety/4.gif" alt="img"></p>
 <p>图1 分布式拒绝服务攻击网络结构图</p>
 <p>常用攻击手段有：同步洪流、WinNuke、死亡之PNG、Echl攻击、ICMP/SMURF、Finger炸弹、Land攻击、Ping洪流、Rwhod、tearDrop、TARGA3、UDP攻击、OOB等。</p>
 <p><strong>SYN Flood</strong></p>
@@ -502,7 +503,7 @@
 <p>(3) 攻击者也返回一个确认报文ACK给受害服务器，同样TCP序列号被加一，到此一个TCP连接完成，三次握手完成。</p>
 <p><strong>具体原理是：</strong>TCP连接的三次握手中，假设一个用户向服务器发送了SYN报文后突然死机或掉线，那么服务器在发出SYN+ACK应答报文后是无法收到客户端的ACK报文的(第三次握手无法完成)，这种情况下服务器端一般会重试(再次发送SYN+ACK给客户端)并等待一段时间后丢弃这个未完成的连接。这段时间的长度我们称为SYN Timeout，一般来说这个时间是分钟的数量级(大约为30秒~2分钟)；一个用户出现异常导致服务器的一个线程等待1分钟并不是什么很大的问题，但如果有一个恶意的攻击者大量模拟这种情况(伪造IP地址)，服务器端将为了维护一个非常大的半连接列表而消耗非常多的资源。即使是简单的保存并遍历也会消耗非常多的CPU时间和内存，何况还要不断对这个列表中的IP进行SYN+ACK的重试。实际上如果服务器的TCP/IP栈不够强大，最后的结果往往是堆栈溢出崩溃—— 即使服务器端的系统足够强大，服务器端也将忙于处理攻击者伪造的TCP连接请求而无暇理睬客户的正常请求(毕竟客户端的正常请求比率非常之小)，此时从正常客户的角度看来，服务器失去响应，这种情况就称作：服务器端受到了SYN Flood攻击(SYN洪水攻击)。<strong>防御方法：</strong>SYN COOKIE 防火墙。</p>
 <h4 id="如何发现SYN攻击"><a href="#如何发现SYN攻击" class="headerlink" title="如何发现SYN攻击"></a>如何发现SYN攻击</h4><p>最简单的方法，使用netstat命令查看是否有很多TCP连接的状态为SYN_RECV 。如下图，可判定该服务器正在受到SYN攻击。 </p>
-<p><img src="/Users/dianping/Desktop/clip (2" alt="img">.png)</p>
+<p><img src="/2018/10/08/webSafety/5.png" alt="img"></p>
 <p><strong>IP欺骗性攻击</strong></p>
 <p>这种攻击利用RST位来实现。假设有一个合法用户(61.61.61.61)已经同服务器建立了正常的连接，攻击者构造攻击的TCP数据，伪装自己的IP为61.61.61.61，并向服务器发送一个带有RST位的TCP数据段。服务器接收到这样的数据后，认为从61.61.61.61发送的连接有错误，就会清空缓冲区中建立好的连接。这时，如果合法用户61.61.61.61再发送合法数据，服务器就已经没有这样的连接了，该用户就必须从新开始建立连接。攻击时，攻击者会伪造大量的IP地址，向目标发送RST数据，使服务器不对合法用户服务，从而实现了对受害服务器的拒绝服务攻击。</p>
 <p><strong>（四）MITM中间人攻击</strong></p>
@@ -519,14 +520,14 @@
 <p>当A、B通信时，C不主动去为其“转发”，只是把他们的传输的数据备份，以获取用户网络的活动，包括账户、密码等敏感信息，这是被动攻击也是非常难被发现的。</p>
 <p><strong>1、SSL证书欺骗攻击</strong></p>
 <p>此类攻击较为简单常见。首先通过ARP欺骗、DNS劫持甚至网关劫持等等，将客户端的访问重定向到攻击者的机器，让客户端机器与攻击者机器建立HTTPS连接（使用伪造证书），而攻击者机器再跟服务端连接。这样用户在客户端看到的是相同域名的网站，但浏览器会提示证书不可信，用户不点击继续浏览就能避免被劫持的。所以这是最简单的攻击方式，也是最容易识别的攻击方式。</p>
-<p><img src="/Users/dianping/Desktop/1124317-fff1ad81da23c7a1.png" alt="img"></p>
+<p><img src="/2018/10/08/webSafety/6.png" alt="img"></p>
 <p>图2    ssl证书欺骗</p>
 <p><strong>防范措施 ：</strong>钓鱼类攻击，App直接调用系统API创建的HTTPS连接（NSURLConnection）一般不会受到影响，只使用默认的系统校验，只要系统之前没有信任相关的伪造证书，校验就直接失败，不会SSL握手成功；但如果是使用WebView浏览网页，需要在UIWebView中加入较强的授权校验，禁止用户在校验失败的情况下继续访问。</p>
 <p><strong>2 、SSL剥离攻击（SSLStrip）</strong></p>
 <p>SSL剥离，即将HTTPS连接降级到HTTP连接。假如客户端直接访问HTTPS的URL，攻击者是没办法直接进行降级的，因为HTTPS与HTTP虽然都是TCP连接，但HTTPS在传输HTTP数据之前，需要在进行了SSL握手，并协商传输密钥用来后续的加密传输；假如客户端与攻击者进行SSL握手，而攻击者无法提供可信任的证书来让客户端验证通过进行连接，所以客户端的系统会判断为SSL握手失败，断开连接。</p>
 <p>该攻击方式主要是利用用户并不会每次都直接在浏览器上输入<a href="https://link.jianshu.com/?t=https://xxx.xxx.com" target="_blank" rel="noopener">https://xxx.xxx.com</a> 来访问网站，或者有些网站并非全网HTTPS，而是只在需要进行敏感数据传输时才使用HTTPS的漏洞。中间人攻击者在劫持了客户端与服务端的HTTP会话后，将HTTP页面里面所有的 https:// 超链接都换成 http:// ，用户在点击相应的链接时，是使用HTTP协议来进行访问；这样，就算服务器对相应的URL只支持HTTPS链接，但中间人一样可以和服务建立HTTPS连接之后，将数据使用HTTP协议转发给客户端，实现会话劫持。</p>
 <p>这种攻击手段更让人难以提防，因为它使用HTTP，不会让浏览器出现HTTPS证书不可信的警告，而且用户很少会去看浏览器上的URL是 https:// 还是 http:// 。特别是App的WebView中，应用一般会把URL隐藏掉，用户根本无法直接查看到URL出现异常。</p>
-<p><img src="/Users/dianping/Desktop/1124317-7add74cf108d3846.png" alt="img"></p>
+<p><img src="/2018/10/08/webSafety/7.png" alt="img"></p>
 <p>图3    ssl剥离攻击</p>
 <p><strong>防范措施：</strong>该种攻击方式同样无法劫持App内的HTTPS连接会话，因为App中传入请求的URL参数是固定带有“https://” 的；但在WebView中打开网页同样需要注意，在非全网HTTPS的网站，建议对WebView中打开的URL做检查，检查应该使用 “https://” 的URL是否被篡改为 “http://” ；也建议服务端在配置HTTPS服务时，加上“HTTP Strict Transport Security”配置项。</p>
 <p><strong>3 针对SSL算法进行攻击</strong></p>
