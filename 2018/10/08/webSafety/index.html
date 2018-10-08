@@ -88,13 +88,14 @@
 <meta property="og:description" content="（一）XSS">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://xiaoxiaowo.github.io/2018/10/08/webSafety/1.jpg">
+<meta property="og:image" content="http://xiaoxiaowo.github.io/2018/10/08/webSafety/8.png">
 <meta property="og:image" content="http://xiaoxiaowo.github.io/2018/10/08/webSafety/2.png">
 <meta property="og:image" content="http://xiaoxiaowo.github.io/2018/10/08/webSafety/3.png">
 <meta property="og:image" content="http://xiaoxiaowo.github.io/2018/10/08/webSafety/4.gif">
 <meta property="og:image" content="http://xiaoxiaowo.github.io/2018/10/08/webSafety/5.png">
 <meta property="og:image" content="http://xiaoxiaowo.github.io/2018/10/08/webSafety/6.png">
 <meta property="og:image" content="http://xiaoxiaowo.github.io/2018/10/08/webSafety/7.png">
-<meta property="og:updated_time" content="2018-10-08T08:35:44.000Z">
+<meta property="og:updated_time" content="2018-10-08T08:47:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端安全">
 <meta name="twitter:description" content="（一）XSS">
@@ -442,10 +443,7 @@
 <p>（1）编码：对用户输入的数据进行HTML Entity编码  （2）过滤：移除用户上传的DOM属性，如onerror等，移除用户上传的style节点，script节点，iframe节点等。</p>
 <p>（3）校正：避免直接对HTML Entity编码，使用DOM Prase转换，校正不配对的DOM标签。</p>
 <p><strong>主要的使用场景：</strong></p>
-<p>直接嵌入html: <script>alert(‘XSS’)</script> </p>
-<p>元素标签事件: <body onload="alert(‘XSS’)"> </body></p>
-<p>图片标签: &lt;img src =“javascript:alert(‘XSS’);”&gt; </p>
-<p>其他标签: <iframe>，<div>，<link>等 </div></iframe></p>
+<p><img src="/2018/10/08/webSafety/8.png" alt="img"></p>
 <p>比如：如果document.cookies的一些方法，弹出用户登录站点的cookie信息，然后返回给对应的站点。</p>
 <p>微博互相关注的功能，导致病毒的扩散。</p>
 <p><strong>规避方法：</strong></p>
