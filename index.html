@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion" lang="zh-Hans">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -93,7 +93,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Mist',
+    scheme: 'Gemini',
     version: '5.1.4',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -385,14 +385,173 @@
 
       
         
-          <p><strong>（一）XSS</strong></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/08/webSafety/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p><strong>（一）XSS</strong></p>
+<p>跨站脚本攻击(Cross Site Scripting)，缩写为XSS。恶意攻击者往Web页面里插入恶意Script代码，当用户浏览该页之时，嵌入其中Web里面的Script代码会被执行，从而达到恶意攻击用户的目的。（<strong>XSS</strong> 利用的是用户对指定网站的信任 ）</p>
+<p><strong>XSS的原理：</strong></p>
+<ul>
+<li>攻击者对含有漏洞的服务器发起XSS攻击（注入JS代码）</li>
+<li>诱使受害者打开受到攻击的服务器URL</li>
+<li>受害者在Web浏览器中打开URL，恶意脚本执行</li>
+</ul>
+<p><strong>XSS攻击分类</strong>：存储型（持久型）、反射型（非持久型）、基于DOM</p>
+<p><img src="/2018/10/08/webSafety/1.jpg" alt="img"></p>
+<p>注：存储区：恶意代码存放的位置；插入点：由谁取得恶意代码，并插入到网页上；</p>
+<p>（1）存储型: 存储型XSS和反射型的XSS差别就在于，存储型的XSS提交的代码会存储在服务器端（数据库，内存，文件系统等），下次请求目标页面时不用再提交XSS代码。</p>
+<p>（2）反射型： 发出请求时，XSS代码出现在URL中，作为输入提交到服务器端，服务器端解析后响应，XSS随响应内容一起返回给浏览器，最后浏览器解析执行XSS代码，这个过程就像一次发射，所以叫反射型XSS。</p>
+<p>（3）DOM型：跟前两种的区别在于，取出和执行恶意代码由浏览器端完成，属于前端 JavaScript 自身的安全漏洞，而其他两种 XSS 都属于服务端的安全漏洞。</p>
+<p><strong>存储型 XSS 的攻击步骤：</strong></p>
+<ol>
+<li>攻击者将恶意代码提交到目标网站的数据库中。</li>
+<li>用户打开目标网站时，网站服务端将恶意代码从数据库取出，拼接在 HTML 中返回给浏览器。</li>
+<li>用户浏览器接收到响应后解析执行，混在其中的恶意代码也被执行。</li>
+<li>在部分情况下，恶意代码加载外部的代码，用于执行更复杂的逻辑。</li>
+<li>恶意代码窃取用户数据并发送到攻击者的网站，或者冒充用户的行为，调用目标网站接口执行攻击者指定的操作。</li>
+</ol>
+<p>这种攻击常见于带有用户保存数据的网站功能，如论坛发帖、商品评论、用户私信等。</p>
+<p><strong>反射型 XSS 的攻击步骤：</strong></p>
+<ol>
+<li>攻击者构造出特殊的 URL，其中包含恶意代码。</li>
+<li>用户打开带有恶意代码的 URL 时，网站服务端将恶意代码从 URL 中取出，拼接在 HTML 中返回给浏览器。</li>
+<li>用户浏览器接收到响应后解析执行，混在其中的恶意代码也被执行。</li>
+<li>在部分情况下，恶意代码加载外部的代码，用于执行更复杂的逻辑</li>
+<li>恶意代码窃取用户数据并发送到攻击者的网站，或者冒充用户的行为，调用目标网站接口执行攻击者指定的操作。</li>
+</ol>
+<p>反射型 XSS 跟存储型 XSS 的区别是：存储型 XSS 的恶意代码存在数据库里，反射型 XSS 的恶意代码存在 URL 里。</p>
+<p>反射型 XSS 漏洞常见于通过 URL 传递参数的功能，如网站搜索、跳转等。</p>
+<p>由于需要用户主动打开恶意的 URL 才能生效，攻击者往往会结合多种手段诱导用户点击。</p>
+<p>POST 的内容也可以触发反射型 XSS，只不过其触发条件比较苛刻（需要构造表单提交页面，并引导用户点击），所以非常少见。</p>
+<p><strong>DOM 型 XSS 的攻击步骤：</strong></p>
+<ol>
+<li>攻击者构造出特殊的 URL，其中包含恶意代码。</li>
+<li>用户打开带有恶意代码的 URL。</li>
+<li>用户浏览器接收到响应后解析执行，前端 JavaScript 取出 URL 中的恶意代码并执行。</li>
+<li>在部分情况下，恶意代码加载外部的代码，用于执行更复杂的逻辑。</li>
+<li>恶意代码窃取用户数据并发送到攻击者的网站，或者冒充用户的行为，调用目标网站接口执行攻击者指定的操作。</li>
+</ol>
+<p><strong>防御措施：</strong></p>
+<p>（1）编码：对用户输入的数据进行HTML Entity编码  （2）过滤：移除用户上传的DOM属性，如onerror等，移除用户上传的style节点，script节点，iframe节点等。</p>
+<p>（3）校正：避免直接对HTML Entity编码，使用DOM Prase转换，校正不配对的DOM标签。</p>
+<p><strong>主要的使用场景：</strong></p>
+<p><img src="/2018/10/08/webSafety/8.png" alt="img"></p>
+<p>比如：如果document.cookies的一些方法，弹出用户登录站点的cookie信息，然后返回给对应的站点。</p>
+<p>微博互相关注的功能，导致病毒的扩散。</p>
+<p><strong>规避方法：</strong></p>
+<p>输入的数据进行HTML Entity编码 </p>
+<p><img src="/2018/10/08/webSafety/2.png" alt="img"></p>
+<p><strong>前端白名单限制：</strong>不允许输入onload，alert等，后端同步白名单限制，如果监测到就提示，您的输入有特殊字符，请重新输入！ （业务团队评估，认为是有效的方式）</p>
+<p>参考：<a href="https://segmentfault.com/a/1190000016551188" target="_blank" rel="noopener">https://segmentfault.com/a/1190000016551188</a></p>
+<p><a href="https://mp.neixin.cn/cms/content/article/Ra8QGSQ28HEM790I016wEE2hdca1vVzk" target="_blank" rel="noopener">https://mp.neixin.cn/cms/content/article/Ra8QGSQ28HEM790I016wEE2hdca1vVzk</a></p>
+<p><strong>（二）CSRF跨域</strong>（CSRF 利用的是网站对用户网页浏览器的信任）</p>
+<p>CSRF跨站点请求伪造(Cross—Site Request Forgery)， 例如:攻击者盗用了你的身份，以你的名义发送恶意请求，对服务器来说这个请求是完全合法的，但是却完成了攻击者所期望的一个操作，比如以你的名义发送邮件、发消息，盗取你的账号，添加系统管理员，甚至于购买商品、虚拟货币转账等。  如下：其中Web A为存在CSRF漏洞的网站，Web B为攻击者构建的恶意网站，User C为Web A网站的合法用户。</p>
+<p>跨域请求伪造，也被称为one-click攻击或session劫持，简称CSRF(Cross-site request forgery)或者XSRF。是一种恶意的，利用网站信任的用户发送一些未经用户授权的请求。不像跨站脚本攻击(XSS)，CSRF漏洞是在用户浏览器中利用站点对用户的信任，然后对特定网站发起的攻击。</p>
+<p>跨域请求伪造是对Web浏览器的“混淆代理人”攻击。CSRF一般具有以下特点：</p>
+<ul>
+<li>它存在于依赖用户身份认证的站点。</li>
+<li>它利用了站点对用户身份的信任。</li>
+<li>它欺骗用户的浏览器，将HTTP请求发送到目标站点。</li>
+<li>它所发出的HTTP请求是用户意料之外的。</li>
+</ul>
+<p>危险的是Web应用程序，它将经过身份信息验证的用户信息保存在Web浏览器中的cookie中，基于cookie来验证用户身份，继而执行操作，无需用户每次操作都输入身份信息。然而用户可能会在不知情的情况下将HTTP请求(携带cookie)发送到站点，从而导致用户不知情的操作。</p>
+<p>如果网站没有做相应的校验，将可能会导致服务器上的状态更改，例如更改受害者的电子邮件地址或密码，或购买某些东西等等。因此，CSRF攻击目标是多种多样的。</p>
+<p> <strong>CSRF攻击攻击原理及过程如下：</strong></p>
+<p><img src="/2018/10/08/webSafety/3.png" alt="img"></p>
+<ol>
+<li><p>用户C打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A；</p>
+</li>
+<li><p>在用户信息通过验证后，网站A产生Cookie信息并返回给浏览器，此时用户登录网站A成功，可以正常发送请求到网站A；</p>
+</li>
+<li><p>用户未退出网站A之前，在同一浏览器中，打开一个TAB页访问网站B；</p>
+</li>
+<li><p>网站B接收到用户请求后，返回一些攻击性代码，并发出一个请求要求访问第三方站点A；</p>
+</li>
+<li><p>浏览器在接收到这些攻击性代码后，根据网站B的请求，在用户不知情的情况下携带Cookie信息，向网站A发出请求。网站A并不知道该请求其实是由B发起的，所以会根据用户C的Cookie信息以C的    权限处理该请求，导致来自网站B的恶意代码被执行。 </p>
+</li>
+</ol>
+<p><strong>防御CSRF攻击</strong></p>
+<p>目前防御 CSRF 攻击主要有三种策略：验证 HTTP Referer 字段；在请求地址中添加 token 并验证；在 HTTP 头中自定义属性并验证。</p>
+<p><strong>1.  验证 Referer</strong></p>
+<p>对于需要防范 CSRF 的请求，我们可以通过验证 Referer 来判断该请求是否为第三方网站发起的。在后台接收到请求的时候,可以通过请求头中的Referer请求头来判断请求来源。</p>
+<p><strong>2. Token</strong></p>
+<p>服务器下发一个随机 Token（算法不能复杂），每次发起请求时将 Token 携带上，服务器验证 Token 是否有效。</p>
+<p><strong>3.HttpOnly</strong> - 这个属性用来防止例如跨站脚本等攻击，设置它的cookie不允许通过JavaScript来访问。</p>
+<p>参考：</p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&amp;mid=2651554578&amp;idx=1&amp;sn=89a1743e018bf221688172c96bb4e866&amp;chksm=802554d3b752ddc57945a5341285b22eb6d8eaaef3096aba72f696d1807df6cb626a30be26ea&amp;mpshare=1&amp;scene=1&amp;srcid=0716SBeQuIYYHIXob5Q0mpT9&amp;key=0d399596963f36f137d9c1b92beec543cb2aeb393fd418a919ca2b71bd97db22ed160864dbd46a618287d1b36afe659b1ba13fe2cf6235b263147875b3be3410ebedaa2c308a235221756d0d825f8b7e&amp;ascene=0&amp;uin=MTE3NjQyMDU0Mg%3D%3D&amp;devicetype=iMac+MacBookPro11%2C4+OSX+OSX+10.12.2+build(16C67)&amp;version=12010210&amp;nettype=WIFI&amp;lang=zh_CN&amp;fontScale=100&amp;pass_ticket=PoJymBXOChpqXFhMn7puUIuGEN4o7F7yt%2BNt6nMEw3MKoTs47Dq10O87GWW%2FKRu0" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&amp;mid=2651554578&amp;idx=1&amp;sn=89a1743e018bf221688172c96bb4e866&amp;chksm=802554d3b752ddc57945a5341285b22eb6d8eaaef3096aba72f696d1807df6cb626a30be26ea&amp;mpshare=1&amp;scene=1&amp;srcid=0716SBeQuIYYHIXob5Q0mpT9&amp;key=0d399596963f36f137d9c1b92beec543cb2aeb393fd418a919ca2b71bd97db22ed160864dbd46a618287d1b36afe659b1ba13fe2cf6235b263147875b3be3410ebedaa2c308a235221756d0d825f8b7e&amp;ascene=0&amp;uin=MTE3NjQyMDU0Mg%3D%3D&amp;devicetype=iMac+MacBookPro11%2C4+OSX+OSX+10.12.2+build(16C67)&amp;version=12010210&amp;nettype=WIFI&amp;lang=zh_CN&amp;fontScale=100&amp;pass_ticket=PoJymBXOChpqXFhMn7puUIuGEN4o7F7yt%2BNt6nMEw3MKoTs47Dq10O87GWW%2FKRu0</a></p>
+<p><strong>（三）DoS拒绝服务攻击（denial of service, 简称DoS）</strong></p>
+<p>​       拒绝服务攻击，其目的是使计算机或网络无法提供正常的服务。是黑客常用的攻击手段之一。只要能够对目标造成麻烦，使某些服务被暂停甚至主机死机，都属于拒绝服务攻击。最常见的DoS攻击有计算机网络带宽攻击和连通性攻击。带宽攻击指以极大的通信量冲击网络，使得所有可用网络资源都被消耗殆尽，最后导致合法的用户请求就无法通过。连通性攻击指用大量的连接请求冲击计算机，使得所有可用的操作系统资源都被消耗殆尽，最终计算机无法再处理合法用户的请求。 </p>
+<p>​       分布式拒绝服务(Distributed Denial of Service)攻击（如下图1），指借助于客户/服务器技术,将多个计算机联合起来作为攻击平台,对一个或多个目标发动DDoS 攻击,从而成倍地提高拒绝服务攻击的威力。通常,攻击者使用一个偷窃帐 号将DDoS主控程序安装在一个计算机上,在一个设定的时间主控程序将与大 量代理程序通讯,代理程序已经被安装在网络上的许多计算机上。代理程序 收到指令时就发动攻击。利用客户/服务器技术,主控程序能在几秒钟内激活 成百上千次代理程序的运行。</p>
+<p><img src="/2018/10/08/webSafety/4.gif" alt="img"></p>
+<p>图1 分布式拒绝服务攻击网络结构图</p>
+<p>常用攻击手段有：同步洪流、WinNuke、死亡之PNG、Echl攻击、ICMP/SMURF、Finger炸弹、Land攻击、Ping洪流、Rwhod、tearDrop、TARGA3、UDP攻击、OOB等。</p>
+<p><strong>SYN Flood</strong></p>
+<p>SYN Flood是当前最流行的DoS(拒绝服务攻击)与DDoS(Distributed Denial Of Service分布式拒绝服务攻击)的方式之一，这是一种利用TCP协议缺陷，发送大量伪造的TCP连接请求，使被攻击方资源耗尽(CPU满负荷或内存不足)的攻击方式。</p>
+<p>SYN Flood攻击的过程在TCP协议中被称为三次握手(Three-way Handshake)，而SYN Flood拒绝服务攻击就是通过三次握手而实现的。</p>
+<p>(1) 攻击者向被攻击服务器发送一个包含SYN标志的TCP报文，SYN(Synchronize)即同步报文。同步报文会指明客户端使用的端口以及TCP连接的初始序号。这时同被攻击服务器建立了第一次握手。</p>
+<p>(2) 受害服务器在收到攻击者的SYN报文后，将返回一个SYN+ACK的报文，表示攻击者的请求被接受，同时TCP序号被加一，ACK(Acknowledgment)即确认，这样就同被攻击服务器建立了第二次握手。</p>
+<p>(3) 攻击者也返回一个确认报文ACK给受害服务器，同样TCP序列号被加一，到此一个TCP连接完成，三次握手完成。</p>
+<p><strong>具体原理是：</strong>TCP连接的三次握手中，假设一个用户向服务器发送了SYN报文后突然死机或掉线，那么服务器在发出SYN+ACK应答报文后是无法收到客户端的ACK报文的(第三次握手无法完成)，这种情况下服务器端一般会重试(再次发送SYN+ACK给客户端)并等待一段时间后丢弃这个未完成的连接。这段时间的长度我们称为SYN Timeout，一般来说这个时间是分钟的数量级(大约为30秒~2分钟)；一个用户出现异常导致服务器的一个线程等待1分钟并不是什么很大的问题，但如果有一个恶意的攻击者大量模拟这种情况(伪造IP地址)，服务器端将为了维护一个非常大的半连接列表而消耗非常多的资源。即使是简单的保存并遍历也会消耗非常多的CPU时间和内存，何况还要不断对这个列表中的IP进行SYN+ACK的重试。实际上如果服务器的TCP/IP栈不够强大，最后的结果往往是堆栈溢出崩溃—— 即使服务器端的系统足够强大，服务器端也将忙于处理攻击者伪造的TCP连接请求而无暇理睬客户的正常请求(毕竟客户端的正常请求比率非常之小)，此时从正常客户的角度看来，服务器失去响应，这种情况就称作：服务器端受到了SYN Flood攻击(SYN洪水攻击)。<strong>防御方法：</strong>SYN COOKIE 防火墙。</p>
+<h4 id="如何发现SYN攻击"><a href="#如何发现SYN攻击" class="headerlink" title="如何发现SYN攻击"></a>如何发现SYN攻击</h4><p>最简单的方法，使用netstat命令查看是否有很多TCP连接的状态为SYN_RECV 。如下图，可判定该服务器正在受到SYN攻击。 </p>
+<p><img src="/2018/10/08/webSafety/5.png" alt="img"></p>
+<p><strong>IP欺骗性攻击</strong></p>
+<p>这种攻击利用RST位来实现。假设有一个合法用户(61.61.61.61)已经同服务器建立了正常的连接，攻击者构造攻击的TCP数据，伪装自己的IP为61.61.61.61，并向服务器发送一个带有RST位的TCP数据段。服务器接收到这样的数据后，认为从61.61.61.61发送的连接有错误，就会清空缓冲区中建立好的连接。这时，如果合法用户61.61.61.61再发送合法数据，服务器就已经没有这样的连接了，该用户就必须从新开始建立连接。攻击时，攻击者会伪造大量的IP地址，向目标发送RST数据，使服务器不对合法用户服务，从而实现了对受害服务器的拒绝服务攻击。</p>
+<p><strong>（四）MITM中间人攻击</strong></p>
+<p>中间人攻击（Main-in-the-middle attack，简称MITM攻击)，是一种“间接”的入侵攻击，这种攻击模式是通过各种技术手段将受入侵者控制的一台计算机虚拟放置在网络连接中的两台通信计算机之间，这台计算机就称为“中间人”。顾名思义，就是攻击者插入到原本直接通讯的双方，让双方以为还在直接跟对方通讯，但实际上双方的通讯对方已变成了中间人，信息已经是被中间人获取或篡改。</p>
+<p><strong>攻击示例:</strong></p>
+<p>假设Alice希望与Bob通信。同时，Mallory希望拦截窃会话以进行窃听并可能在某些时候传送给Bob一个虚假的消息。</p>
+<p>首先，Alice会向Bob索取他的公钥。如果Bob将他的公钥发送给Alice，并且此时Mallory能够拦截到这个公钥，就可以实施中间人攻击。Mallory发送给Alice一个伪造的消息，声称自己是Bob，并且附上了Mallory自己的公钥（而不是Bob的）。</p>
+<p>Alice收到公钥后相信这个公钥是Bob的，于是Alice将她的消息用Mallory的公钥（Alice以为是Bob的）加密，并将加密后的消息回给Bob。Mallory再次截获Alice回给Bob的消息，并使用Mallory自己的私钥对消息进行解密，如果Mallory愿意，她也可以对消息进行修改，然后Mallory使用Bob原先发给Alice的公钥对消息再次加密。当Bob收到新加密后的消息时，他会相信这是从Alice那里发来的消息。</p>
+<p><strong>攻击方式：</strong></p>
+<p>中间人攻击很早就成为了黑客常用的一种古老的攻击手段，SMB会话劫持、DNS欺骗等技术都是典型的MITM攻击手段。已成为对网银、网游、网上交易等最有威胁并且最具破坏性的一种攻击方式。</p>
+<p><strong>（1）信息篡改</strong></p>
+<p>当主机A、和主机B通信时，都由主机C来为其“转发”，而A、B之间并没有真正意思上的直接通信，他们之间的信息传递同C作为中介来完成，但是A、B却不会意识到，而以为它们之间是在直接通信。这样攻击主机在中间成为了一个转发器，C可以不仅窃听A、B的通信还可以对信息进行篡改再传给对方，C便可以将恶意信息传递给A、B以达到自己的目的。</p>
+<p><strong>（2）信息窃取</strong></p>
+<p>当A、B通信时，C不主动去为其“转发”，只是把他们的传输的数据备份，以获取用户网络的活动，包括账户、密码等敏感信息，这是被动攻击也是非常难被发现的。</p>
+<p><strong>1、SSL证书欺骗攻击</strong></p>
+<p>此类攻击较为简单常见。首先通过ARP欺骗、DNS劫持甚至网关劫持等等，将客户端的访问重定向到攻击者的机器，让客户端机器与攻击者机器建立HTTPS连接（使用伪造证书），而攻击者机器再跟服务端连接。这样用户在客户端看到的是相同域名的网站，但浏览器会提示证书不可信，用户不点击继续浏览就能避免被劫持的。所以这是最简单的攻击方式，也是最容易识别的攻击方式。</p>
+<p><img src="/2018/10/08/webSafety/6.png" alt="img"></p>
+<p>图2    ssl证书欺骗</p>
+<p><strong>防范措施 ：</strong>钓鱼类攻击，App直接调用系统API创建的HTTPS连接（NSURLConnection）一般不会受到影响，只使用默认的系统校验，只要系统之前没有信任相关的伪造证书，校验就直接失败，不会SSL握手成功；但如果是使用WebView浏览网页，需要在UIWebView中加入较强的授权校验，禁止用户在校验失败的情况下继续访问。</p>
+<p><strong>2 、SSL剥离攻击（SSLStrip）</strong></p>
+<p>SSL剥离，即将HTTPS连接降级到HTTP连接。假如客户端直接访问HTTPS的URL，攻击者是没办法直接进行降级的，因为HTTPS与HTTP虽然都是TCP连接，但HTTPS在传输HTTP数据之前，需要在进行了SSL握手，并协商传输密钥用来后续的加密传输；假如客户端与攻击者进行SSL握手，而攻击者无法提供可信任的证书来让客户端验证通过进行连接，所以客户端的系统会判断为SSL握手失败，断开连接。</p>
+<p>该攻击方式主要是利用用户并不会每次都直接在浏览器上输入<a href="https://link.jianshu.com/?t=https://xxx.xxx.com" target="_blank" rel="noopener">https://xxx.xxx.com</a> 来访问网站，或者有些网站并非全网HTTPS，而是只在需要进行敏感数据传输时才使用HTTPS的漏洞。中间人攻击者在劫持了客户端与服务端的HTTP会话后，将HTTP页面里面所有的 https:// 超链接都换成 http:// ，用户在点击相应的链接时，是使用HTTP协议来进行访问；这样，就算服务器对相应的URL只支持HTTPS链接，但中间人一样可以和服务建立HTTPS连接之后，将数据使用HTTP协议转发给客户端，实现会话劫持。</p>
+<p>这种攻击手段更让人难以提防，因为它使用HTTP，不会让浏览器出现HTTPS证书不可信的警告，而且用户很少会去看浏览器上的URL是 https:// 还是 http:// 。特别是App的WebView中，应用一般会把URL隐藏掉，用户根本无法直接查看到URL出现异常。</p>
+<p><img src="/2018/10/08/webSafety/7.png" alt="img"></p>
+<p>图3    ssl剥离攻击</p>
+<p><strong>防范措施：</strong>该种攻击方式同样无法劫持App内的HTTPS连接会话，因为App中传入请求的URL参数是固定带有“https://” 的；但在WebView中打开网页同样需要注意，在非全网HTTPS的网站，建议对WebView中打开的URL做检查，检查应该使用 “https://” 的URL是否被篡改为 “http://” ；也建议服务端在配置HTTPS服务时，加上“HTTP Strict Transport Security”配置项。</p>
+<p><strong>3 针对SSL算法进行攻击</strong></p>
+<p>上述两种方式，技术含量较低，而且一般只能影响 WebApp，而很难攻击到 Native App ， 所以高阶的 Hacker，会直接针对SSL算法相关漏洞进行攻击，期间会使用很多的密码学相关手段。比如，OpenSSL漏洞。 <strong>防范措施：</strong>这类攻击手段是利用SSL算法的相关漏洞，所以最好的防范措施就是对服务端 SSL/TLS 的配置进行升级：只支持尽量高版本的TLS（最低TLS1）；禁用一些已爆出安全隐患的加密方法；使用2048位的数字证书；</p>
+<p><strong>防御方法:</strong></p>
+<p>(1) 可以将一些机密信息进行加密后再传输</p>
+<p>(2)一些认证方式可以检测到MITM攻击，比如设备或IP异常检测，如果用户以前从未使用某个设备或IP访问系统，则系统会采取措施。还有设备或IP频率检测，如果单一的设备或IP同时访问大量的用户帐号，系统也会采取措施。</p>
+<p>(3) 更有效的方法是进行带外认证，具体过程是：系统进行实时的自动电话回叫，将二次PIN码发送至SMS（短信网关），短信网关再转发给用户，用户收到后，再将二次PIN码发送到短信网关，以确认是否是真的用户。带外认证提供了多种不同的认证方式及认证渠道，它的好处是：所有的认证过程都不会被MITM攻击者接触到。例如MITM是通过中间的假网站来截获敏感信息的，相关的“带外认证”就是指通过电话认证或短信认证等方式确认用户的真实性，而MITM攻击者却不能得到任何信息。当然，这种方式麻烦些。</p>
+<p><strong>对于个人用户来说，应该注意：</strong></p>
+<p>不要随意连入公共场合内的WiFi，或者使用未知代理服务器<br>不要安装不可信或突然出现的描述文件，信任伪造的证书；<br>App内部需对服务器证书进行单独的对比校验，确认证书不是伪造的；</p>
+<p>不点击不明的连接、不去来历不明的网站、不要在小网站进行网上交易，最重要的一点是记清你想去网站的域名，当然，你还可以把你常去的一些涉及到机密信息提交的网站的IP地址记下来，需要时直接输入IP地址登录。</p>
+<p><strong>（五）HTTPS</strong>（SSL: Secure Sockets Layer安全套接层／TLS: Transport Layer Security传输层安全性协议）</p>
+<p>​        HTTPS 是 SSL/TLS 协议的一个最典型的应用，在应用层的 HTTP 协议和传输层之间加入了安全协议，使得原本明文传输的 HTTP 协议具有了保密，校验，认证的安全功能。在握手成功建立连接后，双方的通信基本上就是 HTTP 通信了，只是通过 SSL/TLS 的记录协议层，将内容用协商好的对称密钥进行了加密。HTTPS 协议的使用是以 https:// 作为协议前缀，默认端口是443。</p>
+<p>​       SSL/TLS协议是为了解决窃听（第三方可以获知通信内容）、篡改（第三方可以修改通信内容）、冒充（第三方可以冒充他人身份参与通信）三大风险而设计的，希望达到：</p>
+<p>（1） 所有信息都是加密传播，第三方无法窃听。</p>
+<p>（2） 具有校验机制，一旦被篡改，通信双方会立刻发现。</p>
+<p>（3） 配备身份证书，防止身份被冒充。</p>
+<p><strong>基本过程：</strong></p>
+<p>  SSL/TLS协议的基本思路是采用公钥加密法，即客户端先向服务器端索要公钥，然后用公钥加密信息，服务器收到密文后，用自己的私钥解密。</p>
+<p>（1） 客户端向服务器端索要并验证公钥。</p>
+<p>（2） 双方协商生成”对话密钥”。</p>
+<p>（3） 双方采用”对话密钥”进行加密通信。</p>
+<p>上面过程的前两步，又称为”握手阶段”（handshake）。</p>
+<p>SSL 位于 TCP/IP 协议与各种应用层协议之间，应用层数据不再直接传递给传输层，而是传递给 SSL 层，SSL 层对从应用层收到的数据进行加密，并增加自己的 SSL 头。SSL 协议分为两层（同TLS），包括SSL记录协议（SSL Record Protocol）和 SSL握手协议（SSL Handshake Protocol）。开始加密通信之前，客户端和服务器首先必须建立连接和交换参数，这个过程叫做握手（handshake）。假定客户端叫做爱丽丝，服务器叫做鲍勃，<strong>整个SSL协议的握手过程如下：</strong></p>
+<p>握手阶段分成五步，</p>
+<p>第一步，爱丽丝给出协议版本号、一个客户端生成的随机数（Client random），以及客户端支持的加密方法。</p>
+<p>第二步，鲍勃确认双方使用的加密方法，并给出数字证书、以及一个服务器生成的随机数（Server random）。</p>
+<p>第三步，爱丽丝确认数字证书有效，然后生成一个新的随机数（Premaster secret），并使用数字证书中的公钥，加密这个随机数，发给鲍勃。</p>
+<p>第四步，鲍勃使用自己的私钥，获取爱丽丝发来的随机数（即Premaster secret）。</p>
+<p>第五步，爱丽丝和鲍勃根据约定的加密方法，使用前面的三个随机数，生成”对话密钥”（session key），用来加密接下来的整个对话过程。</p>
+<p>握手阶段有三点需要注意：</p>
+<p>（1）生成对话密钥一共需要三个随机数。</p>
+<p>（2）握手之后的对话使用”对话密钥”加密（对称加密），服务器的公钥和私钥只用于加密和解密”对话密钥”（非对称加密），无其他作用。</p>
+<p>（3）服务器公钥放在服务器的数字证书之中。</p>
+
+          
         
       
     </div>
@@ -509,14 +668,17 @@
 
       
         
-          <p>相关链接：</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/25/joy/dj/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p>相关链接：</p>
+<p>搭建：<a href="https://github.com/limedroid/HexoLearning" target="_blank" rel="noopener">https://github.com/limedroid/HexoLearning</a></p>
+<p>主题Next：<a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">http://theme-next.iissnan.com/</a></p>
+<p>API：<a href="https://hexo.io/zh-cn/docs/index.html" target="_blank" rel="noopener">https://hexo.io/zh-cn/docs/index.html</a></p>
+<p>搜索：<a href="https://juejin.im/post/5ad8b40c6fb9a07abd0d314c" target="_blank" rel="noopener">https://juejin.im/post/5ad8b40c6fb9a07abd0d314c</a></p>
+<p>markDown工具：Typora</p>
+<p>需要在github上新建仓库，并配置ssh_key</p>
+<p>参考：<a href="https://blog.csdn.net/xudailong_blog/article/details/78762262" target="_blank" rel="noopener">https://blog.csdn.net/xudailong_blog/article/details/78762262</a></p>
+
+          
         
       
     </div>
@@ -633,15 +795,15 @@
 
       
         
-          <ul>
-<li>与面向对象编程（Object-oriented programming）</li></ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/23/work/test/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <ul>
+<li>与面向对象编程（Object-oriented programming）和过程式编程（Procedural programming）并列的编程范式。</li>
+<li>最主要的特征是，函数是<a href="https://llh911001.gitbooks.io/mostly-adequate-guide-chinese/content/ch2.html" target="_blank" rel="noopener">第一等公民</a>。</li>
+<li>强调将计算过程分解成可复用的函数，典型例子就是<code>map</code>方法和<code>reduce</code>方法组合而成 <a href="https://zh.wikipedia.org/wiki/MapReduce" target="_blank" rel="noopener">MapReduce 算法</a>。</li>
+<li>只有<a href="https://zh.wikipedia.org/wiki/%E7%BA%AF%E5%87%BD%E6%95%B0" target="_blank" rel="noopener">纯的</a>、没有<a href="https://zh.wikipedia.org/wiki/%E5%87%BD%E6%95%B0%E5%89%AF%E4%BD%9C%E7%94%A8" target="_blank" rel="noopener">副作用</a>的函数，才是合格的函数。</li>
+</ul>
+
+          
         
       
     </div>
@@ -780,14 +942,24 @@
 
       
         
-          <h2 id="如何对待上班这件事情？"><a href="#如何对待上班这件事情？" class="headerlink" title="如何对待上班这件事情？"></a>如何对待上班这件事情？</h2>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/23/joy/demo/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <h2 id="如何对待上班这件事情？"><a href="#如何对待上班这件事情？" class="headerlink" title="如何对待上班这件事情？"></a>如何对待上班这件事情？</h2><p>把自己当做一个软件企业，把雇主当做企业的一个客户，你应当能够提供某种产品或者服务（把一个想法通过技术手段变成一个产品的能力），不断提升你的服务质量，专注于为某一类客户提供特定的服务，做好自我营销，为更多更优质的雇主服务。</p>
+<h2 id="如何注意人际关系？"><a href="#如何注意人际关系？" class="headerlink" title="如何注意人际关系？"></a>如何注意人际关系？</h2><p>不是教你搞办公室政治，而是让你在这上面少踩坑。书中有句话比较经典：“一旦你贬低他人，削弱他们的成就感，在某种程度上就如同切断了他们的氧气补给，获得的回馈将完全是抓狂和绝望”。</p>
+<p>所以切记不要贬低他人，而是应该多激励<br>学会聚精会神地聆听，并指出问题所在以及相关解决方案<br>在小事情上放弃立场或承认错误有时候能为你赢得意想不到的尊重</p>
+<h2 id="如何搞定面试？"><a href="#如何搞定面试？" class="headerlink" title="如何搞定面试？"></a>如何搞定面试？</h2><p>作者的观点并不新颖，但是的确这种方式最有效，同时也说明了其他方式的不靠谱！<br>找人内推<br>即便不换工作也要多面试增加面试经验</p>
+<h2 id="技术做到什么程度？"><a href="#技术做到什么程度？" class="headerlink" title="技术做到什么程度？"></a>技术做到什么程度？</h2><p>是一个方向钻到底，还是什么都搞？一门技术钻的越深，潜在的机会就会越少，但获得这些工作机会的可能性就越大。所以我觉得规划好自己的技术栈很有必要，总体来说一专多能可能会好一些。永远不要陷入对技术的狂热之中，只要明白不同的场景需要不同的技术方案解决就行！</p>
+<h2 id="如何晋升？"><a href="#如何晋升？" class="headerlink" title="如何晋升？"></a>如何晋升？</h2><p>承担更多的责任<br>做了事情要及时反馈给上面，上面不知道一切都是徒劳<br>提升自己的技能<br>不是提出问题，而是解决问题，相信一切问题都可以解决</p>
+<h2 id="如何创业？"><a href="#如何创业？" class="headerlink" title="如何创业？"></a>如何创业？</h2><p>要利用业余时间做起来，后期到一定阶段再辞职也不迟，不仅降低了风险，还提高了成功率。<br>创业要从小处着手，也就是朝着某个独角兽方向发展，比如国内的Face++，就是只做人脸识别算法。</p>
+<h2 id="技术人员如何自我营销？"><a href="#技术人员如何自我营销？" class="headerlink" title="技术人员如何自我营销？"></a>技术人员如何自我营销？</h2><p>写博客<br>社交媒体<br>演讲、培训别人<br>写书</p>
+<h2 id="如何学习？"><a href="#如何学习？" class="headerlink" title="如何学习？"></a>如何学习？</h2><p>培养自学能力<br>筛选出重点，快速突破<br>动手实践才是王道</p>
+<h2 id="如何管好自己？"><a href="#如何管好自己？" class="headerlink" title="如何管好自己？"></a>如何管好自己？</h2><p>中国的教育模式导致我们基本上都是靠外部因素来左右我们的行为，很少有自我驱动型。良好的生活习惯是自律的有效保证，所以从现在开始让自己的生活变得井然有序，培养起自己的生活习惯！改掉坏习惯，培养好习惯，把大的目标转换为一个个小的计划！</p>
+<h2 id="时间去哪了？"><a href="#时间去哪了？" class="headerlink" title="时间去哪了？"></a>时间去哪了？</h2><p>看手机推送的所谓新闻（实际上都是毫无营养的标题党）<br>看视频<br>沉迷于刷社交软件</p>
+<h2 id="为何你总是逃避努力工作？"><a href="#为何你总是逃避努力工作？" class="headerlink" title="为何你总是逃避努力工作？"></a>为何你总是逃避努力工作？</h2><p>努力工作——&gt;辛苦——&gt;有价值的东西——&gt;带来的幸福感持久<br>偷懒——&gt;愉悦——&gt;消费价值的东西——&gt;带来的幸福感短暂</p>
+<h2 id="要不要健身？"><a href="#要不要健身？" class="headerlink" title="要不要健身？"></a>要不要健身？</h2><p>每天必须健身，每天必须健身，每天必须健身！</p>
+<p>剩下的其他没说的东西要么不是干货，要么不适合中国国情，虽然书名是软技能，但是这些东西从长远来看远胜于技术硬技能本身，这些东西均是在长期的工作生活中潜移默化的，非一日之寒，仅仅知道肯定不行，慢慢践行才是根本，软技能培养好了，自然就转化为了硬技能！</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5019756-7576e61146fc1d80.png?imageMogr2/auto-orient/" alt="img"></p>
+
+          
         
       
     </div>
@@ -944,7 +1116,7 @@
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
 
 
 
@@ -1043,6 +1215,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
 
   
 

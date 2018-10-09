@@ -14,7 +14,7 @@
   <entry>
     <title><![CDATA[搭建博客]]></title>
     <url>%2F2018%2F09%2F25%2Fjoy%2Fdj%2F</url>
-    <content type="text"><![CDATA[相关链接： 搭建：https://github.com/limedroid/HexoLearning 主题Next：http://theme-next.iissnan.com/ API：https://hexo.io/zh-cn/docs/index.html 搜索：https://juejin.im/post/5ad8b40c6fb9a07abd0d314c markDown工具：Typora 需要在github上新建仓库，并配置ssh_key]]></content>
+    <content type="text"><![CDATA[相关链接： 搭建：https://github.com/limedroid/HexoLearning 主题Next：http://theme-next.iissnan.com/ API：https://hexo.io/zh-cn/docs/index.html 搜索：https://juejin.im/post/5ad8b40c6fb9a07abd0d314c markDown工具：Typora 需要在github上新建仓库，并配置ssh_key 参考：https://blog.csdn.net/xudailong_blog/article/details/78762262]]></content>
       <tags>
         <tag>搭建</tag>
         <tag>基础</tag>
