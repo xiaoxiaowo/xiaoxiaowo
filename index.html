@@ -445,6 +445,15 @@
 <p><strong>前端白名单限制：</strong>不允许输入onload，alert等，后端同步白名单限制，如果监测到就提示，您的输入有特殊字符，请重新输入！ （业务团队评估，认为是有效的方式）</p>
 <p>参考：<a href="https://segmentfault.com/a/1190000016551188" target="_blank" rel="noopener">https://segmentfault.com/a/1190000016551188</a></p>
 <p><a href="https://mp.neixin.cn/cms/content/article/Ra8QGSQ28HEM790I016wEE2hdca1vVzk" target="_blank" rel="noopener">https://mp.neixin.cn/cms/content/article/Ra8QGSQ28HEM790I016wEE2hdca1vVzk</a></p>
+<p><strong>例子：</strong>此链接会执行js 代码</p>
+<p><a href="http://xxx.com/#/?targetUrl=javascript:alert(1)" target="_blank" rel="noopener">http://xxx.com/#/?targetUrl=javascript:alert(1)</a></p>
+<p><a href="http://xxx.com/#/?targetUrl=http://www.baidu.com/" target="_blank" rel="noopener">http://xxx.com/#/?targetUrl=http://www.baidu.com/</a></p>
+<p><strong>修复方案：</strong>设置 targetUrl 白名单 。 限制 只能访问http:// https:// 协议， </p>
+<p>同时建立域名白名单， 变量targetUrl 的域名必须在白名单中</p>
+<p><strong>代码：</strong></p>
+<p>export const domainWhiteList = [‘XXX.com’,’SSS.com’,];</p>
+<p>const domainWhiteLIstRegArr = domainWhiteList.join(‘|’);</p>
+<p>export const domainWhiteListReg = new RegExp(<code>^https?://(.)*.(${domainwhiteListRegArr})</code>);</p>
 <p><strong>（二）CSRF跨域</strong>（CSRF 利用的是网站对用户网页浏览器的信任）</p>
 <p>CSRF跨站点请求伪造(Cross—Site Request Forgery)， 例如:攻击者盗用了你的身份，以你的名义发送恶意请求，对服务器来说这个请求是完全合法的，但是却完成了攻击者所期望的一个操作，比如以你的名义发送邮件、发消息，盗取你的账号，添加系统管理员，甚至于购买商品、虚拟货币转账等。  如下：其中Web A为存在CSRF漏洞的网站，Web B为攻击者构建的恶意网站，User C为Web A网站的合法用户。</p>
 <p>跨域请求伪造，也被称为one-click攻击或session劫持，简称CSRF(Cross-site request forgery)或者XSRF。是一种恶意的，利用网站信任的用户发送一些未经用户授权的请求。不像跨站脚本攻击(XSS)，CSRF漏洞是在用户浏览器中利用站点对用户的信任，然后对特定网站发起的攻击。</p>
